@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+    php:
+        image: php-7.3-apache
+        ports:
+          - 80:80
+        volumes:
+          - ./:/var/www/html
+        configs:
+          - source: apache-vhosts
+            target: /etc/apache2/sites-available/000-default.conf
+          - source: php-ini
+            target: /usr/local/etc/php/conf.d/local.ini
+
+    db:
+      image: mariadb:latest
+      ports:
+        - 3306:3306
+      volumes:
+        - ./localhost/data/mariadb:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_pwd
+      secrets:
+        - db_pwd
+
+secrets:
+  db_pwd:
+    file: ./localhost/config/mariadb/root_password.txt
+
+configs:
+  apache-vhosts:
+    file: ./localhost/config/apache/vhosts.conf
+  php-ini:
+    file: ./localhost/config/php/local.ini
