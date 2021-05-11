@@ -2,11 +2,46 @@
 FROM php:7.3-apache
 
 # Update OS and install common dev tools
-RUN apt-get update
-RUN apt-get install -y wget vim git zip unzip zlib1g-dev libzip-dev libpng-dev
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    iputils-ping \
+    libicu-dev \
+    libmemcached-dev \
+    libz-dev \
+    libpq-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libfreetype6-dev \
+    libssl-dev \
+    libmcrypt-dev \
+    libxml2-dev \
+    libbz2-dev \
+    libjpeg62-turbo-dev \
+    librabbitmq-dev \
+    libzip-dev \
+    curl \
+    git \
+    subversion \
+    unzip \
+  && apt-get clean -y \
+  && pear install -a SOAP-0.13.0
 
 # Install PHP extensions needed
-RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql gd zip pcntl exif
+RUN docker-php-ext-configure bcmath --enable-bcmath \
+  && docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
+  && docker-php-ext-configure mbstring --enable-mbstring \
+  && docker-php-ext-configure soap --enable-soap \
+  && docker-php-ext-install \
+    bcmath \
+    intl \
+    mbstring \
+    mysqli \
+    pcntl \
+    pdo_mysql \
+    soap \
+    sockets \
+    zip
 
 # Enable common Apache modules
 RUN a2enmod headers expires rewrite
