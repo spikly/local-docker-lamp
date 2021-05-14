@@ -32,7 +32,7 @@ RUN docker-php-ext-configure bcmath --enable-bcmath \
   && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
   && docker-php-ext-configure mbstring --enable-mbstring \
   && docker-php-ext-configure soap --enable-soap \
-  && docker-php-ext-install \
+  && docker-php-ext-install -j$(nproc) \
     bcmath \
     intl \
     mbstring \
