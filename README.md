@@ -87,3 +87,14 @@ To see which containers are currently running:
 docker ps
 ```
 
+
+## Fix connection issues after updating docker
+
+Instructions from https://github.com/docker/for-mac/issues/5610
+
+1. Under Settings -> Resources -> Network, change IP to default (192.168.65.0/28) 
+2. Restart docker
+3. Run `docker swarm leave --force`
+4. Restart docker again
+5. Run `docker swarm init`
+
