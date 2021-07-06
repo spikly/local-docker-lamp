@@ -15,6 +15,7 @@ RUN apt-get update \
     libssl-dev \
     libmcrypt-dev \
     libxml2-dev \
+    libxslt-dev \
     libbz2-dev \
     libjpeg62-turbo-dev \
     librabbitmq-dev \
@@ -43,7 +44,8 @@ RUN docker-php-ext-configure bcmath --enable-bcmath \
     soap \
     sockets \
     zip \
-    gd
+    gd \
+    xsl
 
 # Enable common Apache modules
 RUN a2enmod headers expires rewrite
