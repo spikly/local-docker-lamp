@@ -32,6 +32,7 @@ RUN docker-php-ext-configure bcmath --enable-bcmath \
   && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
   && docker-php-ext-configure mbstring --enable-mbstring \
   && docker-php-ext-configure soap --enable-soap \
+  && docker-php-ext-configure intl \
   && docker-php-ext-install -j$(nproc) \
     bcmath \
     intl \
@@ -41,7 +42,8 @@ RUN docker-php-ext-configure bcmath --enable-bcmath \
     pdo_mysql \
     soap \
     sockets \
-    zip
+    zip \
+    gd
 
 # Enable common Apache modules
 RUN a2enmod headers expires rewrite
